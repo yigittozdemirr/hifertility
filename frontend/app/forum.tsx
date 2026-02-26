@@ -131,7 +131,7 @@ export default function ForumScreen() {
             ))}
           </View>
         </View>
-      </ScrollView>
-    </View>
-  );
-}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    );
+  }
