@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
 import { ImagePlus, Send, CheckCircle2, MessageSquare } from 'lucide-react-native';
