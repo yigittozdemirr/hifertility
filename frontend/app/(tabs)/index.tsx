@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
 import { BlogCard } from '@/components/BlogCard';
 import { JourneyGarden } from '@/components/JourneyGarden';
 import { useApp } from '@/context/AppContext';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const BLOG_POSTS = [
   {
@@ -28,12 +29,15 @@ const BLOG_POSTS = [
 ];
 
 export default function HomeScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { state } = useApp();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Hifertility" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader 
+        title="Hifertility" 
+        onMenuPress={() => navigation.openDrawer()} 
+      />
       
       <ScrollView className="flex-1 px-4 pt-4" showsVerticalScrollIndicator={false}>
         <View className="mb-6 bg-[#F8F4FF] p-6 rounded-[25px] border border-[#F3E5F5]">
@@ -51,8 +55,6 @@ export default function HomeScreen() {
         
         <View className="h-10" />
       </ScrollView>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
