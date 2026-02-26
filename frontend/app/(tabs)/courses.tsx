@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
 import { LessonCard } from '@/components/LessonCard';
@@ -37,16 +38,21 @@ const LESSONS = [
 
 export default function CoursesScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-white">
       <ScreenHeader title="Dersler" onMenuPress={() => setIsSidebarOpen(true)} />
       
       <ScrollView className="flex-1 px-4 pt-4" showsVerticalScrollIndicator={false}>
-        <Text className="text-xl font-bold text-primary mb-4">My Learning Path</Text>
+        <Text className="text-xl font-bold text-[#6A1B9A] mb-4">Eğitim Yolculuğum</Text>
         
         {LESSONS.map((lesson) => (
-          <LessonCard key={lesson.id} {...lesson} />
+          <LessonCard 
+            key={lesson.id} 
+            {...lesson} 
+            onPress={() => router.push(`/lessons/${lesson.id}`)}
+          />
         ))}
         
         <View className="h-10" />
