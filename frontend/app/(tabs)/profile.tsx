@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useRouter, useNavigation } from 'expo-router';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { User, Settings, Heart, ShieldCheck, ChevronRight, LogOut } from 'lucide-native-react'; // Wait, let me fix the import
+import { ChevronRight } from 'lucide-react-native';
 import { useApp } from '@/context/AppContext';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { User as UserIcon, Settings as SettingsIcon, Heart as HeartIcon, ShieldCheck as ShieldIcon, LogOut as LogOutIcon } from 'lucide-react-native';
