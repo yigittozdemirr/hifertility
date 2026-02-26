@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
 import { BellRing, CheckCircle2, MessageSquare, Heart } from 'lucide-react-native';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const NOTIFICATIONS = [
   {
@@ -48,17 +49,17 @@ const NOTIFICATIONS = [
 ];
 
 export default function NotificationsScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Bildirimler" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Bildirimler" onMenuPress={() => navigation.openDrawer()} />
       
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View className="p-4">
           <View className="flex-row items-center justify-between mb-6 px-2">
             <Text className="text-xl font-bold text-[#6A1B9A]">Son Bildirimler</Text>
-            <TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}>
               <Text className="text-[#6A1B9A]/60 font-bold text-xs uppercase tracking-wider">Hepsini Oku</Text>
             </TouchableOpacity>
           </View>
@@ -86,8 +87,6 @@ export default function NotificationsScreen() {
           ))}
         </View>
       </ScrollView>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
