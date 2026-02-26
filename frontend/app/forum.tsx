@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { ImagePlus, Send, CheckCircle2, MessageSquare } from 'lucide-react-native';
 import { useApp } from '@/context/AppContext';
 import { useNavigation } from 'expo-router';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 export default function ForumScreen() {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
@@ -13,7 +14,6 @@ export default function ForumScreen() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { state, addForumPost } = useApp();
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   const handleSubmit = () => {
     if (!subject || !message) return;
@@ -25,18 +25,12 @@ export default function ForumScreen() {
       addForumPost(subject, message);
       setIsSubmitting(false);
       setIsSuccess(true);
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
       
       // Reset after 3 seconds
       setTimeout(() => {
         setIsSuccess(false);
         setSubject('');
         setMessage('');
-        fadeAnim.setValue(0);
       }, 3000);
     }, 1500);
   };
