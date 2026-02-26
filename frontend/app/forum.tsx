@@ -101,14 +101,14 @@ export default function ForumScreen() {
                 </TouchableOpacity>
               </View>
   
-              {isSuccess && (
-                <Animated.View style={{ opacity: fadeAnim }}>
-                  <View className="mt-4 items-center">
-                    <Text className="text-green-600 font-bold">Konunuz başarıyla gönderildi!</Text>
-                  </View>
-                </Animated.View>
-              )}
-          </View>
+                {isSuccess && (
+                  <Animated.View entering={FadeIn} exiting={FadeOut}>
+                    <View className="mt-4 items-center">
+                      <Text className="text-green-600 font-bold">Konunuz başarıyla gönderildi!</Text>
+                    </View>
+                  </Animated.View>
+                )}
+            </View>
 
           <View className="mb-10 px-2">
             <Text className="text-xl font-bold text-[#6A1B9A] mb-4">Tartışmalar</Text>
