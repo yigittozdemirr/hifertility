@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
-import { ClipboardCheck, Circle } from 'lucide-react-native';
-
-const TASKS = [
-  { id: '1', title: 'Daily meal log', completed: true },
-  { id: '2', title: '15 mins meditation', completed: false },
-  { id: '3', title: 'Hydration goal (2L)', completed: false },
-  { id: '4', title: 'Sleep tracker update', completed: true },
-];
+import { ClipboardCheck, Circle, CheckCircle2 } from 'lucide-react-native';
 
 export default function HomeworkScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [tasks, setTasks] = useState([
+    { id: '1', title: 'Daily meal log', completed: true },
+    { id: '2', title: '15 mins meditation', completed: false },
+    { id: '3', title: 'Hydration goal (2L)', completed: false },
+    { id: '4', title: 'Sleep tracker update', completed: true },
+  ]);
+
+  const toggleTask = (id: string) => {
+    setTasks(tasks.map(t => {
+      if (t.id === id) {
+        if (!t.completed) {
+          Alert.alert("Başarılı!", `"${t.title}" görevini tamamladınız.`);
+        }
+        return { ...t, completed: !t.completed };
+      }
+      return t;
+    }));
+  };
 
   return (
     <View className="flex-1 bg-white">
@@ -22,17 +33,18 @@ export default function HomeworkScreen() {
           <Text className="text-2xl font-bold text-[#6A1B9A] mb-2">Günlük Görevlerim</Text>
           <Text className="text-[#6A1B9A]/60 font-medium mb-6">İlerlemeni takip et.</Text>
           
-          {TASKS.map((task) => (
+          {tasks.map((task) => (
             <TouchableOpacity 
               key={task.id}
-              className="flex-row items-center bg-white p-5 rounded-2xl mb-4 shadow-sm shadow-purple-50"
+              onPress={() => toggleTask(task.id)}
+              className={`flex-row items-center bg-white p-5 rounded-2xl mb-4 shadow-sm border ${task.completed ? 'border-green-100' : 'border-[#F3E5F5]'}`}
             >
               {task.completed ? (
-                <ClipboardCheck size={24} color="#6A1B9A" />
+                <CheckCircle2 size={24} color="#22C55E" />
               ) : (
-                <Circle size={24} color="#6A1B9A/30" />
+                <Circle size={24} color="#D1C4E9" />
               )}
-              <Text className={`ml-4 text-base font-bold text-[#6A1B9A] ${task.completed ? 'line-through opacity-50' : ''}`}>
+              <Text className={`ml-4 text-base font-bold ${task.completed ? 'text-green-600 line-through' : 'text-[#6A1B9A]'}`}>
                 {task.title}
               </Text>
             </TouchableOpacity>
