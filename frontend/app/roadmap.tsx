@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
-import { MapPin, CheckCircle2, ChevronRight } from 'lucide-react-native';
+import { CheckCircle2, ChevronRight } from 'lucide-react-native';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export default function RoadmapScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [steps, setSteps] = useState([
     { id: '1', title: 'Initial Assessment', completed: true, desc: 'Profilinizi ve sağlık geçmişinizi oluşturun.' },
     { id: '2', title: 'Nutrition Phase', completed: true, desc: 'Fertilite dostu beslenme düzenine geçiş.' },
@@ -19,7 +20,7 @@ export default function RoadmapScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Yol Haritası" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Yol Haritası" onMenuPress={() => navigation.openDrawer()} />
       <ScrollView className="flex-1 p-6" showsVerticalScrollIndicator={false}>
         <View className="pl-4 border-l-2 border-[#D1C4E9]">
           {steps.map((step, index) => (
@@ -50,7 +51,6 @@ export default function RoadmapScreen() {
           ))}
         </View>
       </ScrollView>
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
