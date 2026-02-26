@@ -42,6 +42,7 @@ interface AppContextType {
   completeLesson: (id: string) => void;
   updateUserData: (data: Partial<UserData>) => void;
   refreshAffirmation: () => void;
+  submitSurvey: () => void;
 }
 
 const AFFIRMATIONS = [
@@ -50,6 +51,8 @@ const AFFIRMATIONS = [
   "Kendime ve sürece güveniyorum.",
   "Sağlıklı seçimlerim geleceğimi şekillendiriyor.",
   "Huzur içindeyim, bedenimle barışığım.",
+  "Her nefeste şifa buluyorum.",
+  "İçsel gücüm en büyük rehberim.",
 ];
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -62,8 +65,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       '3': { id: '3', likes: 156, isLiked: false },
     },
     forumPosts: [
-      { id: 'p1', subject: 'Başarı Hikayeleri: Yolculuğumuz', message: '...', comments: 24, time: '3 saat önce' },
-      { id: 'p2', subject: 'Beslenme İpuçları', message: '...', comments: 56, time: '5 saat önce' },
+      { id: 'p1', subject: 'Başarı Hikayeleri: Yolculuğumuz', message: 'Yolculuğun başında umutsuzduk ama şimdi çok mutluyuz.', comments: 24, time: '3 saat önce' },
+      { id: 'p2', subject: 'Beslenme İpuçları', message: 'Avokado ve ceviz tüketimini artırmak çok yardımcı oldu.', comments: 56, time: '5 saat önce' },
     ],
     lessons: {},
     userData: {
@@ -72,9 +75,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       weight: '60',
       cycleLength: '28',
     },
-    progress: 0,
+    progress: 10,
     affirmation: AFFIRMATIONS[0],
   });
+
+  const calculateProgress = (lessons: Record<string, Lesson>) => {
+    const completedCount = Object.values(lessons).filter(l => l.isCompleted).length;
+    // Assume 8 total milestones (4 lessons + some other activities)
+    return Math.min(((completedCount + 1) / 8) * 100, 100);
+  };
 
   const toggleLike = (id: string) => {
     setState(prev => {
@@ -115,12 +124,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         ...prev.lessons,
         [id]: { id, isCompleted: true }
       };
-      // Simple progress calculation (assume 4 lessons total for now)
-      const completedCount = Object.values(newLessons).filter(l => l.isCompleted).length;
       return {
         ...prev,
         lessons: newLessons,
-        progress: Math.min((completedCount / 4) * 100, 100),
+        progress: calculateProgress(newLessons),
       };
     });
   };
@@ -139,8 +146,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const submitSurvey = () => {
+    setState(prev => ({
+      ...prev,
+      progress: Math.min(prev.progress + 15, 100)
+    }));
+  };
+
   return (
-    <AppContext.Provider value={{ state, toggleLike, addForumPost, completeLesson, updateUserData, refreshAffirmation }}>
+    <AppContext.Provider value={{ state, toggleLike, addForumPost, completeLesson, updateUserData, refreshAffirmation, submitSurvey }}>
       {children}
     </AppContext.Provider>
   );
