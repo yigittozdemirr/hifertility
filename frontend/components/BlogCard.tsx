@@ -29,7 +29,7 @@ export function BlogCard({ id, title, image, comments }: BlogCardProps) {
             <TouchableOpacity 
               onPress={() => toggleLike(id)}
               className="flex-row items-center"
-              activeOpacity={1}
+              activeOpacity={0.7}
             >
               <Heart 
                 size={20} 
