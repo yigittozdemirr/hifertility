@@ -56,7 +56,11 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>({
-    likes: {},
+    likes: {
+      '1': { id: '1', likes: 124, isLiked: false },
+      '2': { id: '2', likes: 215, isLiked: false },
+      '3': { id: '3', likes: 156, isLiked: false },
+    },
     forumPosts: [
       { id: 'p1', subject: 'Başarı Hikayeleri: Yolculuğumuz', message: '...', comments: 24, time: '3 saat önce' },
       { id: 'p2', subject: 'Beslenme İpuçları', message: '...', comments: 56, time: '5 saat önce' },
