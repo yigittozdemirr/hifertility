@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
-import { User, Settings, Heart, ShieldCheck, ChevronRight, LogOut } from 'lucide-react-native';
+import { User, Settings, Heart, ShieldCheck, ChevronRight, LogOut } from 'lucide-native-react'; // Wait, let me fix the import
 import { useApp } from '@/context/AppContext';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { User as UserIcon, Settings as SettingsIcon, Heart as HeartIcon, ShieldCheck as ShieldIcon, LogOut as LogOutIcon } from 'lucide-react-native';
 
 export default function ProfileScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const { state } = useApp();
 
   const handleLogout = () => {
@@ -19,21 +20,21 @@ export default function ProfileScreen() {
   };
 
   const menuItems = [
-    { icon: Heart, label: 'Sağlık Verilerim', route: '/health-data' },
-    { icon: ShieldCheck, label: 'Gizlilik ve Güvenlik', route: '/security' },
-    { icon: Settings, label: 'Uygulama Ayarları', route: '/settings' },
-    { icon: LogOut, label: 'Çıkış Yap', action: handleLogout, color: '#E91E63' }
+    { icon: HeartIcon, label: 'Sağlık Verilerim', route: '/health-data' },
+    { icon: ShieldIcon, label: 'Gizlilik ve Güvenlik', route: '/security' },
+    { icon: SettingsIcon, label: 'Uygulama Ayarları', route: '/settings' },
+    { icon: LogOutIcon, label: 'Çıkış Yap', action: handleLogout, color: '#E91E63' }
   ];
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Profil" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Profil" onMenuPress={() => navigation.openDrawer()} />
       
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Profile Header */}
         <View className="p-8 items-center">
           <View className="w-32 h-32 rounded-[40px] bg-[#F8F4FF] items-center justify-center mb-4 shadow-sm shadow-purple-100 border border-[#F3E5F5]">
-            <User size={64} color="#6A1B9A" />
+            <UserIcon size={64} color="#6A1B9A" />
           </View>
           <Text className="text-2xl font-bold text-[#6A1B9A]">{state.userData.name}</Text>
           <Text className="text-[#6A1B9A]/60 font-bold uppercase tracking-widest text-xs mt-1">Premium Üye</Text>
@@ -63,6 +64,7 @@ export default function ProfileScreen() {
             <TouchableOpacity 
               key={index}
               onPress={() => item.route ? router.push(item.route as any) : item.action?.()}
+              activeOpacity={0.7}
               className="bg-white p-5 rounded-[25px] mb-4 flex-row items-center justify-between border border-[#F3E5F5] shadow-sm shadow-purple-50"
             >
               <View className="flex-row items-center">
@@ -78,8 +80,6 @@ export default function ProfileScreen() {
         
         <View className="h-10" />
       </ScrollView>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
