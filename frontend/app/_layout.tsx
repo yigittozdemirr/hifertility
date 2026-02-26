@@ -84,5 +84,8 @@ export default function RootLayout() {
         </ThemeProvider>
       </AppProvider>
     </ErrorBoundary>
-  );
+    );
 }
+
+const APP_VERSION = '1.0.1';
+
