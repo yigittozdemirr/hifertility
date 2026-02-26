@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
 import { Activity, Heart, Wind, Scale, ChevronRight, Zap, CloudMoon, Dumbbell } from 'lucide-react-native';
 
+const TIPS = {
+  kan: "Düzenli egzersiz pelvik bölgeye kan akışını artırarak yumurta kalitesini destekler.",
+  stres: "Fiziksel aktivite endorfin salgılatarak kortizol seviyesini düşürür ve hormon dengesini korur.",
+  kilo: "İdeal vücut kitle indeksi (BMI), düzenli ovülasyon ve sağlıklı bir gebelik için kritik öneme sahiptir."
+};
+
 export default function LifestyleScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const showTip = (type: keyof typeof TIPS) => {
+    const titles = {
+      kan: "Kan Dolaşımı",
+      stres: "Stres Kontrolü",
+      kilo: "İdeal Kilo"
+    };
+    Alert.alert(titles[type], TIPS[type]);
+  };
 
   return (
     <View className="flex-1 bg-white">
@@ -39,24 +54,33 @@ export default function LifestyleScreen() {
             {/* Flowchart Bubbles */}
             <View className="w-full mt-4">
               <View className="flex-row justify-between items-center">
-                <View className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300">
+                <TouchableOpacity 
+                  onPress={() => showTip('kan')}
+                  className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300"
+                >
                   <Zap size={20} color="white" className="mb-2" />
                   <Text className="text-white text-[10px] font-bold text-center">Kan Dolaşımı Artar</Text>
-                </View>
+                </TouchableOpacity>
                 
                 <View className="h-0.5 bg-[#D1C4E9] flex-1 mx-1" />
                 
-                <View className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300">
+                <TouchableOpacity 
+                  onPress={() => showTip('stres')}
+                  className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300"
+                >
                   <Heart size={20} color="white" className="mb-2" />
                   <Text className="text-white text-[10px] font-bold text-center">Stres Azalır</Text>
-                </View>
+                </TouchableOpacity>
                 
                 <View className="h-0.5 bg-[#D1C4E9] flex-1 mx-1" />
                 
-                <View className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300">
+                <TouchableOpacity 
+                  onPress={() => showTip('kilo')}
+                  className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300"
+                >
                   <Scale size={20} color="white" className="mb-2" />
                   <Text className="text-white text-[10px] font-bold text-center">İdeal Kilo</Text>
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
