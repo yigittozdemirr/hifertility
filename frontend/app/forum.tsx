@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
-import { ImagePlus, Send, CheckCircle2 } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { ImagePlus, Send, CheckCircle2, MessageSquare } from 'lucide-react-native';
+import { useApp } from '@/context/AppContext';
 
 export default function ForumScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -11,6 +11,7 @@ export default function ForumScreen() {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { state, addForumPost } = useApp();
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   const handleSubmit = () => {
@@ -20,6 +21,7 @@ export default function ForumScreen() {
     
     // Simulate API call
     setTimeout(() => {
+      addForumPost(subject, message);
       setIsSubmitting(false);
       setIsSuccess(true);
       Animated.timing(fadeAnim, {
@@ -111,15 +113,18 @@ export default function ForumScreen() {
           </View>
 
           <View className="mb-10 px-2">
-            <Text className="text-xl font-bold text-[#6A1B9A] mb-4">Popüler Konular</Text>
-            <View className="bg-white p-5 rounded-3xl border border-[#F3E5F5] mb-4 shadow-sm shadow-purple-50">
-              <Text className="font-bold text-[#6A1B9A] text-base mb-1">Başarı Hikayeleri: Yolculuğumuz</Text>
-              <Text className="text-[#6A1B9A]/50 font-medium text-xs">24 yorum • 3 saat önce</Text>
-            </View>
-            <View className="bg-white p-5 rounded-3xl border border-[#F3E5F5] shadow-sm shadow-purple-50">
-              <Text className="font-bold text-[#6A1B9A] text-base mb-1">Beslenme İpuçları</Text>
-              <Text className="text-[#6A1B9A]/50 font-medium text-xs">56 yorum • 5 saat önce</Text>
-            </View>
+            <Text className="text-xl font-bold text-[#6A1B9A] mb-4">Tartışmalar</Text>
+            {state.forumPosts.map((post) => (
+              <View key={post.id} className="bg-white p-5 rounded-3xl border border-[#F3E5F5] mb-4 shadow-sm shadow-purple-50 flex-row items-center">
+                <View className="w-12 h-12 rounded-2xl bg-[#F8F4FF] items-center justify-center mr-4">
+                  <MessageSquare size={20} color="#6A1B9A" />
+                </View>
+                <View className="flex-1">
+                  <Text className="font-bold text-[#6A1B9A] text-base mb-1">{post.subject}</Text>
+                  <Text className="text-[#6A1B9A]/50 font-medium text-xs">{post.comments} yorum • {post.time}</Text>
+                </View>
+              </View>
+            ))}
           </View>
         </View>
       </ScrollView>
