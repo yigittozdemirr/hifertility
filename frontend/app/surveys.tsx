@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, Alert } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
 import { ClipboardList, ArrowRight, X, ChevronRight, CheckCircle2 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { useApp } from '@/context/AppContext';
 
 const SURVEYS = [
   { id: '1', title: 'Wellness Satisfaction', duration: '5 min' },
@@ -30,7 +32,8 @@ const QUESTIONS = [
 ];
 
 export default function SurveysScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
+  const { submitSurvey } = useApp();
   const [activeSurvey, setActiveSurvey] = useState<any>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -50,7 +53,8 @@ export default function SurveysScreen() {
     if (currentStep < QUESTIONS.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      Alert.alert("Başarılı!", "Anketi tamamladığınız için teşekkürler.", [
+      submitSurvey();
+      Alert.alert("Başarılı!", "Anketi tamamladığınız için teşekkürler. Bahçenize 15% gelişim puanı eklendi!", [
         { text: "Tamam", onPress: () => setActiveSurvey(null) }
       ]);
     }
@@ -58,7 +62,7 @@ export default function SurveysScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Anketler" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Anketler" onMenuPress={() => navigation.openDrawer()} />
       
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         <Text className="text-xl font-bold text-[#6A1B9A] mb-4">Açık Anketler</Text>
@@ -67,6 +71,7 @@ export default function SurveysScreen() {
             key={s.id} 
             onPress={() => handleStartSurvey(s)}
             className="bg-[#F8F4FF] rounded-[25px] p-6 mb-4 border border-[#F3E5F5] flex-row items-center justify-between shadow-sm shadow-purple-50"
+            activeOpacity={0.7}
           >
             <View className="flex-row items-center">
               <View className="w-12 h-12 bg-white rounded-2xl items-center justify-center mr-4">
@@ -114,6 +119,7 @@ export default function SurveysScreen() {
               <TouchableOpacity
                 key={option}
                 onPress={() => handleAnswer(option)}
+                activeOpacity={0.7}
                 className={`p-5 rounded-3xl mb-4 border-2 flex-row items-center justify-between ${
                   answers[QUESTIONS[currentStep].id] === option 
                     ? "bg-[#6A1B9A] border-[#6A1B9A]" 
@@ -139,6 +145,7 @@ export default function SurveysScreen() {
               className={`p-5 rounded-3xl items-center justify-center flex-row shadow-lg ${
                 answers[QUESTIONS[currentStep].id] ? "bg-[#6A1B9A] shadow-purple-200" : "bg-[#6A1B9A]/30"
               }`}
+              activeOpacity={0.7}
             >
               <Text className="text-white font-bold text-lg mr-2">
                 {currentStep === QUESTIONS.length - 1 ? "Gönder" : "Sonraki"}
@@ -148,8 +155,6 @@ export default function SurveysScreen() {
           </View>
         </View>
       </Modal>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
