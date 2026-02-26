@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
-import { ClipboardCheck, Circle, CheckCircle2 } from 'lucide-react-native';
+import { Circle, CheckCircle2 } from 'lucide-react-native';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export default function HomeworkScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [tasks, setTasks] = useState([
     { id: '1', title: 'Daily meal log', completed: true },
     { id: '2', title: '15 mins meditation', completed: false },
@@ -27,7 +28,7 @@ export default function HomeworkScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Ev Ödevi" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Ev Ödevi" onMenuPress={() => navigation.openDrawer()} />
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         <View className="bg-[#F8F4FF] rounded-[30px] p-6 border border-[#F3E5F5] mb-6">
           <Text className="text-2xl font-bold text-[#6A1B9A] mb-2">Günlük Görevlerim</Text>
@@ -38,6 +39,7 @@ export default function HomeworkScreen() {
               key={task.id}
               onPress={() => toggleTask(task.id)}
               className={`flex-row items-center bg-white p-5 rounded-2xl mb-4 shadow-sm border ${task.completed ? 'border-green-100' : 'border-[#F3E5F5]'}`}
+              activeOpacity={0.7}
             >
               {task.completed ? (
                 <CheckCircle2 size={24} color="#22C55E" />
@@ -51,7 +53,6 @@ export default function HomeworkScreen() {
           ))}
         </View>
       </ScrollView>
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
