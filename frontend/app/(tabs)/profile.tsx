@@ -2,103 +2,64 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
-import { User, Settings, Heart, Activity, ShieldCheck, ChevronRight } from 'lucide-react-native';
+import { User, Settings, Heart, Activity, ShieldCheck, ChevronRight, LogOut } from 'lucide-react-native';
 
 export default function ProfileScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <View className="flex-1 bg-background">
-      <ScreenHeader title="Profile" onMenuPress={() => setIsSidebarOpen(true)} />
+    <View className="flex-1 bg-white">
+      <ScreenHeader title="Profil" onMenuPress={() => setIsSidebarOpen(true)} />
       
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Profile Header */}
-        <View className="bg-white p-6 items-center border-b border-secondary">
-          <View className="w-24 h-24 rounded-full bg-secondary items-center justify-center mb-4 border-2 border-primary/20">
-            <User size={48} color="#6A1B9A" />
+        <View className="p-8 items-center">
+          <View className="w-32 h-32 rounded-[40px] bg-[#F8F4FF] items-center justify-center mb-4 shadow-sm shadow-purple-100 border border-[#F3E5F5]">
+            <User size={64} color="#6A1B9A" />
           </View>
-          <Text className="text-2xl font-bold text-primary">Sarah Johnson</Text>
-          <Text className="text-muted-foreground">Premium Member</Text>
+          <Text className="text-2xl font-bold text-[#6A1B9A]">Sarah Johnson</Text>
+          <Text className="text-[#6A1B9A]/60 font-bold uppercase tracking-widest text-xs mt-1">Premium Üye</Text>
         </View>
 
-        {/* Action Buttons */}
-        <View className="flex-row justify-around p-6 bg-white border-b border-secondary">
-          <TouchableOpacity className="items-center">
-            <View className="w-12 h-12 rounded-full bg-secondary items-center justify-center mb-2">
-              <Activity size={24} color="#6A1B9A" />
-            </View>
-            <Text className="text-xs font-medium text-primary">Stats</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            className="items-center"
-            onPress={() => {/* Navigate to Lifestyle Tracker */}}
-          >
-            <View className="w-12 h-12 rounded-full bg-secondary items-center justify-center mb-2">
-              <Heart size={24} color="#6A1B9A" />
-            </View>
-            <Text className="text-xs font-medium text-primary">Wellness</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="items-center">
-            <View className="w-12 h-12 rounded-full bg-secondary items-center justify-center mb-2">
-              <Settings size={24} color="#6A1B9A" />
-            </View>
-            <Text className="text-xs font-medium text-primary">Settings</Text>
-          </TouchableOpacity>
+        {/* Stats Row */}
+        <View className="flex-row justify-around px-6 mb-8">
+          <View className="bg-[#F8F4FF] p-5 rounded-[25px] items-center flex-1 mx-2 border border-[#F3E5F5]">
+            <Text className="text-xl font-bold text-[#6A1B9A]">12</Text>
+            <Text className="text-[10px] font-bold text-[#6A1B9A]/50 uppercase">Ders</Text>
+          </View>
+          <View className="bg-[#F8F4FF] p-5 rounded-[25px] items-center flex-1 mx-2 border border-[#F3E5F5]">
+            <Text className="text-xl font-bold text-[#6A1B9A]">45</Text>
+            <Text className="text-[10px] font-bold text-[#6A1B9A]/50 uppercase">Gün</Text>
+          </View>
+          <View className="bg-[#F8F4FF] p-5 rounded-[25px] items-center flex-1 mx-2 border border-[#F3E5F5]">
+            <Text className="text-xl font-bold text-[#6A1B9A]">8</Text>
+            <Text className="text-[10px] font-bold text-[#6A1B9A]/50 uppercase">Rozet</Text>
+          </View>
         </View>
 
         {/* Menu Sections */}
-        <View className="p-4">
-          <Text className="text-lg font-bold text-primary mb-4 ml-2">My Journey</Text>
+        <View className="px-6">
+          <Text className="text-lg font-bold text-[#6A1B9A] mb-4">Ayarlar</Text>
           
-          <TouchableOpacity 
-            className="bg-white p-4 rounded-2xl mb-3 flex-row items-center justify-between shadow-sm border border-secondary"
-            onPress={() => {/* Navigate to forum */}}
-          >
-            <View className="flex-row items-center">
-              <View className="p-2 bg-secondary rounded-lg mr-3">
-                <ShieldCheck size={20} color="#6A1B9A" />
-              </View>
-              <Text className="text-lg font-medium text-primary/80">Health Data</Text>
-            </View>
-            <ChevronRight size={20} color="#6A1B9A" />
-          </TouchableOpacity>
-
-          {/* Quick Stats/Infographic Preview */}
-          <View className="bg-primary/5 p-6 rounded-[30px] border border-primary/10 mt-4">
-            <Text className="text-primary font-bold text-lg mb-4">Physical Activity Guide</Text>
-            <View className="flex-row justify-around mb-6">
-              <View className="items-center">
-                <View className="w-12 h-12 rounded-full bg-white items-center justify-center mb-2">
-                  <Activity size={24} color="#6A1B9A" />
+          {[
+            { icon: Heart, label: 'Sağlık Verilerim' },
+            { icon: ShieldCheck, label: 'Gizlilik ve Güvenlik' },
+            { icon: Settings, label: 'Uygulama Ayarları' },
+            { icon: LogOut, label: 'Çıkış Yap', color: '#E91E63' }
+          ].map((item, index) => (
+            <TouchableOpacity 
+              key={index}
+              className="bg-white p-5 rounded-[25px] mb-4 flex-row items-center justify-between border border-[#F3E5F5] shadow-sm shadow-purple-50"
+            >
+              <div className="flex-row items-center">
+                <View className="w-10 h-10 bg-[#F8F4FF] rounded-2xl items-center justify-center mr-4">
+                  <item.icon size={20} color={item.color || "#6A1B9A"} />
                 </View>
-                <Text className="text-[10px] text-center text-primary/70">Yoga</Text>
-              </View>
-              <View className="items-center">
-                <View className="w-12 h-12 rounded-full bg-white items-center justify-center mb-2">
-                  <Activity size={24} color="#6A1B9A" />
-                </View>
-                <Text className="text-[10px] text-center text-primary/70">Walking</Text>
-              </View>
-              <View className="items-center">
-                <View className="w-12 h-12 rounded-full bg-white items-center justify-center mb-2">
-                  <Activity size={24} color="#6A1B9A" />
-                </View>
-                <Text className="text-[10px] text-center text-primary/70">Pilates</Text>
-              </View>
-            </View>
-            
-            <View className="flex-row flex-wrap justify-center gap-2">
-              <View className="bg-white px-3 py-1 rounded-full border border-primary/20">
-                <Text className="text-[10px] text-primary">Blood Circulation</Text>
-              </View>
-              <View className="bg-white px-3 py-1 rounded-full border border-primary/20">
-                <Text className="text-[10px] text-primary">Stress Reduction</Text>
-              </View>
-              <View className="bg-white px-3 py-1 rounded-full border border-primary/20">
-                <Text className="text-[10px] text-primary">Ideal Weight</Text>
-              </View>
-            </View>
-          </View>
+                <Text className={`text-base font-bold ${item.color ? 'text-[#E91E63]' : 'text-[#6A1B9A]'}`}>{item.label}</Text>
+              </div>
+              <ChevronRight size={18} color={item.color || "#6A1B9A"} opacity={0.5} />
+            </TouchableOpacity>
+          ))}
         </View>
         
         <View className="h-10" />
