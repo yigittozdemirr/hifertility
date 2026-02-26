@@ -87,5 +87,4 @@ export default function RootLayout() {
     );
 }
 
-const APP_VERSION = '1.0.1'; // Force sync trigger
-
+const APP_VERSION = '1.0.1';
