@@ -1,5 +1,5 @@
 import '@/global.css';
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 
 import { NAV_THEME } from '@/lib/theme';
 import { ThemeProvider } from '@react-navigation/native';
