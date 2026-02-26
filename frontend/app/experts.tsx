@@ -9,7 +9,7 @@ const COUNSELORS = [
   { id: '2', name: 'Dyt. Mehmet Can', role: 'Beslenme Danışmanı', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&q=80' },
 ];
 
-export default function CounselingScreen() {
+export default function ExpertsScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleAction = (counselor: string, action: string) => {
