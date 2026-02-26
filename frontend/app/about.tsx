@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
-import { Info, Heart, ShieldCheck, Mail } from 'lucide-react-native';
+import { Heart, ShieldCheck, Mail } from 'lucide-react-native';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export default function AboutScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Hakkımızda" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Hakkımızda" onMenuPress={() => navigation.openDrawer()} />
       <ScrollView className="flex-1 p-6" showsVerticalScrollIndicator={false}>
         <View className="items-center mb-8">
           <View className="w-24 h-24 bg-[#F8F4FF] rounded-[30px] items-center justify-center mb-4">
@@ -38,7 +39,6 @@ export default function AboutScreen() {
           </View>
         </View>
       </ScrollView>
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
