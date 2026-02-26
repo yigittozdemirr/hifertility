@@ -1,15 +1,20 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { Play } from 'lucide-react-native';
+import { Play, CheckCircle2 } from 'lucide-react-native';
+import { useApp } from '@/context/AppContext';
 
 interface LessonCardProps {
+  id: string;
   title: string;
   duration: string;
-  progress: number;
   image: string;
   onPress?: () => void;
 }
 
-export function LessonCard({ title, duration, progress, image, onPress }: LessonCardProps) {
+export function LessonCard({ id, title, duration, image, onPress }: LessonCardProps) {
+  const { state } = useApp();
+  const lessonState = state.lessons[id] || { id, isCompleted: false };
+  const progress = lessonState.isCompleted ? 100 : 0;
+
   return (
     <TouchableOpacity 
       onPress={onPress}
@@ -18,10 +23,16 @@ export function LessonCard({ title, duration, progress, image, onPress }: Lesson
     >
       <View className="relative">
         <Image source={{ uri: image }} className="w-24 h-24 rounded-2xl" />
-        <View className="absolute inset-0 items-center justify-center bg-black/20 rounded-2xl">
-          <View className="w-10 h-10 rounded-full bg-white/30 items-center justify-center">
-            <Play size={24} color="white" fill="white" />
-          </View>
+        <View className="absolute inset-0 items-center justify-center bg-black/10 rounded-2xl">
+          {lessonState.isCompleted ? (
+            <View className="w-10 h-10 rounded-full bg-green-500 items-center justify-center">
+              <CheckCircle2 size={24} color="white" />
+            </View>
+          ) : (
+            <View className="w-10 h-10 rounded-full bg-white/30 items-center justify-center">
+              <Play size={24} color="white" fill="white" />
+            </View>
+          )}
         </View>
       </View>
       
@@ -31,11 +42,13 @@ export function LessonCard({ title, duration, progress, image, onPress }: Lesson
         
         <View className="h-2 bg-[#F3E5F5] rounded-full overflow-hidden">
           <View 
-            className="h-full bg-[#6A1B9A]" 
+            className={`h-full ${lessonState.isCompleted ? 'bg-green-500' : 'bg-[#6A1B9A]'}`}
             style={{ width: `${progress}%` }} 
           />
         </View>
-        <Text className="text-right text-[10px] text-[#6A1B9A] mt-1 font-bold">{progress}%</Text>
+        <Text className={`text-right text-[10px] mt-1 font-bold ${lessonState.isCompleted ? 'text-green-600' : 'text-[#6A1B9A]'}`}>
+          {lessonState.isCompleted ? 'TAMAMLANDI' : `${progress}%`}
+        </Text>
       </View>
     </TouchableOpacity>
   );
