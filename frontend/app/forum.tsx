@@ -1,76 +1,130 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
-import { ImagePlus, Send } from 'lucide-react-native';
+import { ImagePlus, Send, CheckCircle2 } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 
 export default function ForumScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const router = useRouter();
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+
+  const handleSubmit = () => {
+    if (!subject || !message) return;
+    
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+      
+      // Reset after 3 seconds
+      setTimeout(() => {
+        setIsSuccess(false);
+        setSubject('');
+        setMessage('');
+        fadeAnim.setValue(0);
+      }, 3000);
+    }, 1500);
+  };
 
   return (
-    <View className="flex-1 bg-background">
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      className="flex-1 bg-white"
+    >
       <ScreenHeader title="Community" onMenuPress={() => setIsSidebarOpen(true)} />
       
-      <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
-        <View className="bg-white rounded-[20px] p-6 shadow-sm border border-secondary mb-6">
-          <Text className="text-2xl font-bold text-primary mb-6">Create New Topic</Text>
-          
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-primary/60 mb-2">Recipient</Text>
-            <View className="bg-secondary px-4 py-2 rounded-full self-start">
-              <Text className="text-primary font-bold">Forum Yönetimi</Text>
-            </View>
-          </View>
-          
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-primary/60 mb-2">Subject</Text>
-            <TextInput 
-              placeholder="What's on your mind?"
-              className="bg-secondary/30 p-4 rounded-xl text-primary"
-              placeholderTextColor="#6A1B9A50"
-            />
-          </View>
-          
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-primary/60 mb-2">Message</Text>
-            <TextInput 
-              placeholder="Tell us more..."
-              multiline
-              numberOfLines={6}
-              className="bg-secondary/30 p-4 rounded-xl text-primary h-32"
-              textAlignVertical="top"
-              placeholderTextColor="#6A1B9A50"
-            />
-          </View>
-          
-          <View className="flex-row items-center justify-between">
-            <TouchableOpacity className="flex-row items-center bg-secondary px-4 py-2 rounded-xl">
-              <ImagePlus size={20} color="#6A1B9A" />
-              <Text className="ml-2 text-primary font-medium">Add Image</Text>
-            </TouchableOpacity>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <View className="p-4">
+          <View className="bg-[#F8F4FF] rounded-[30px] p-6 border border-[#F3E5F5] mb-6">
+            <Text className="text-2xl font-bold text-[#6A1B9A] mb-6">Yeni Konu Aç</Text>
             
-            <TouchableOpacity className="bg-primary p-4 rounded-full items-center justify-center">
-              <Send size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
+            <View className="mb-6">
+              <Text className="text-xs font-bold text-[#6A1B9A]/50 mb-2 uppercase tracking-widest">Alıcı</Text>
+              <View className="bg-[#6A1B9A] px-4 py-2 rounded-full self-start">
+                <Text className="text-white font-bold text-xs">Forum Yönetimi</Text>
+              </View>
+            </View>
+            
+            <View className="mb-5">
+              <Text className="text-xs font-bold text-[#6A1B9A]/50 mb-2 uppercase tracking-widest">Konu Başlığı</Text>
+              <TextInput 
+                value={subject}
+                onChangeText={setSubject}
+                placeholder="Başlık giriniz..."
+                className="bg-white p-4 rounded-2xl text-[#6A1B9A] font-semibold shadow-sm shadow-purple-100"
+                placeholderTextColor="#6A1B9A50"
+              />
+            </View>
+            
+            <View className="mb-8">
+              <Text className="text-xs font-bold text-[#6A1B9A]/50 mb-2 uppercase tracking-widest">Mesajınız</Text>
+              <TextInput 
+                value={message}
+                onChangeText={setMessage}
+                placeholder="Mesajınızı detaylandırın..."
+                multiline
+                numberOfLines={6}
+                className="bg-white p-4 rounded-2xl text-[#6A1B9A] h-40 font-medium shadow-sm shadow-purple-100"
+                textAlignVertical="top"
+                placeholderTextColor="#6A1B9A50"
+              />
+            </View>
+            
+            <View className="flex-row items-center justify-between">
+              <TouchableOpacity className="flex-row items-center bg-white px-5 py-3 rounded-2xl shadow-sm shadow-purple-100">
+                <ImagePlus size={20} color="#6A1B9A" />
+                <Text className="ml-2 text-[#6A1B9A] font-bold">Görsel Ekle</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                onPress={handleSubmit}
+                disabled={isSubmitting || isSuccess}
+                className={`${isSuccess ? 'bg-green-500' : 'bg-[#6A1B9A]'} w-14 h-14 rounded-2xl items-center justify-center shadow-lg shadow-purple-300`}
+              >
+                {isSubmitting ? (
+                  <View className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : isSuccess ? (
+                  <CheckCircle2 size={28} color="white" />
+                ) : (
+                  <Send size={24} color="white" />
+                )}
+              </TouchableOpacity>
+            </View>
 
-        <View className="mb-10">
-          <Text className="text-xl font-bold text-primary mb-4">Trending Topics</Text>
-          <View className="bg-white p-4 rounded-2xl border border-secondary mb-3">
-            <Text className="font-bold text-primary mb-1">Success Stories: Our Journey</Text>
-            <Text className="text-muted-foreground text-sm">24 comments • 3 hours ago</Text>
+            {isSuccess && (
+              <Animated.View style={{ opacity: fadeAnim }} className="mt-4 items-center">
+                <Text className="text-green-600 font-bold">Konunuz başarıyla gönderildi!</Text>
+              </Animated.View>
+            )}
           </View>
-          <View className="bg-white p-4 rounded-2xl border border-secondary">
-            <Text className="font-bold text-primary mb-1">Nutrition Tips for TTC</Text>
-            <Text className="text-muted-foreground text-sm">56 comments • 5 hours ago</Text>
+
+          <View className="mb-10 px-2">
+            <Text className="text-xl font-bold text-[#6A1B9A] mb-4">Popüler Konular</Text>
+            <View className="bg-white p-5 rounded-3xl border border-[#F3E5F5] mb-4 shadow-sm shadow-purple-50">
+              <Text className="font-bold text-[#6A1B9A] text-base mb-1">Başarı Hikayeleri: Yolculuğumuz</Text>
+              <Text className="text-[#6A1B9A]/50 font-medium text-xs">24 yorum • 3 saat önce</Text>
+            </View>
+            <View className="bg-white p-5 rounded-3xl border border-[#F3E5F5] shadow-sm shadow-purple-50">
+              <Text className="font-bold text-[#6A1B9A] text-base mb-1">Beslenme İpuçları</Text>
+              <Text className="text-[#6A1B9A]/50 font-medium text-xs">56 yorum • 5 saat önce</Text>
+            </View>
           </View>
         </View>
       </ScrollView>
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
