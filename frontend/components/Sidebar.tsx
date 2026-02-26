@@ -10,6 +10,7 @@ import {
   ClipboardList, 
   MessageSquare, 
   Info,
+  Activity,
   X
 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
