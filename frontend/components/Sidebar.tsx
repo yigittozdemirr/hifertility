@@ -25,9 +25,9 @@ interface SidebarProps {
 
 const MENU_ITEMS = [
   { id: 'notifications', label: 'Notifications', icon: Bell, route: '/notifications' },
-  { id: 'homework', label: 'Homework (Ev Ödevi)', icon: Clipboard, route: '/homework' },
-  { id: 'counseling', label: 'Counseling', icon: Users, route: '/counseling' },
-  { id: 'roadmap', label: 'Roadmap', icon: Map, route: '/roadmap' },
+    { id: 'homework', label: 'Homework (Ev Ödevi)', icon: Clipboard, route: '/homework' },
+    { id: 'experts', label: 'Counseling', icon: Users, route: '/experts' },
+    { id: 'roadmap', label: 'Roadmap', icon: Map, route: '/roadmap' },
   { id: 'courses', label: 'Courses', icon: GraduationCap, route: '/courses' },
   { id: 'blog', label: 'Blog', icon: FileText, route: '/' },
   { id: 'surveys', label: 'Surveys', icon: ClipboardList, route: '/surveys' },
