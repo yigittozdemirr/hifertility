@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
 import { ImagePlus, Send, CheckCircle2, MessageSquare } from 'lucide-react-native';
 import { useApp } from '@/context/AppContext';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export default function ForumScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,7 +46,7 @@ export default function ForumScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-white"
     >
-      <ScreenHeader title="Community" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Community" onMenuPress={() => navigation.openDrawer()} />
       
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View className="p-4">
@@ -85,7 +86,7 @@ export default function ForumScreen() {
             </View>
             
             <View className="flex-row items-center justify-between">
-              <TouchableOpacity className="flex-row items-center bg-white px-5 py-3 rounded-2xl shadow-sm shadow-purple-100">
+              <TouchableOpacity className="flex-row items-center bg-white px-5 py-3 rounded-2xl shadow-sm shadow-purple-100" activeOpacity={0.7}>
                 <ImagePlus size={20} color="#6A1B9A" />
                 <Text className="ml-2 text-[#6A1B9A] font-bold">Görsel Ekle</Text>
               </TouchableOpacity>
@@ -94,6 +95,7 @@ export default function ForumScreen() {
                   onPress={handleSubmit}
                   disabled={isSubmitting || isSuccess}
                   className={`${isSuccess ? 'bg-green-500' : 'bg-[#6A1B9A]'} w-14 h-14 rounded-2xl items-center justify-center shadow-lg shadow-purple-300`}
+                  activeOpacity={0.7}
                 >
                   {isSubmitting ? (
                     <ActivityIndicator size="small" color="white" />
@@ -130,8 +132,6 @@ export default function ForumScreen() {
           </View>
         </View>
       </ScrollView>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
