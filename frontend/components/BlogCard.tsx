@@ -26,20 +26,20 @@ export function BlogCard({ id, title, image, comments }: BlogCardProps) {
       <View className="p-4 pt-2">
         <Text className="text-lg font-bold text-[#6A1B9A] mb-3 leading-tight">{title}</Text>
         <View className="flex-row items-center gap-4">
-          <TouchableOpacity 
-            onPress={() => toggleLike(id)}
-            className="flex-row items-center active:opacity-100"
-            activeOpacity={1}
-          >
-            <Heart 
-              size={20} 
-              color={postState.isLiked ? "#E91E63" : "#6A1B9A"} 
-              fill={postState.isLiked ? "#E91E63" : "transparent"}
-            />
-            <Text className={`ml-1.5 font-bold ${postState.isLiked ? "text-[#E91E63]" : "text-[#6A1B9A]"}`}>
-              {postState.likes}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity 
+              onPress={() => toggleLike(id)}
+              className="flex-row items-center"
+              activeOpacity={1}
+            >
+              <Heart 
+                size={20} 
+                color="#6A1B9A" 
+                fill={postState.isLiked ? "#6A1B9A" : "transparent"}
+              />
+              <Text className="ml-1.5 font-bold text-[#6A1B9A]">
+                {postState.likes}
+              </Text>
+            </TouchableOpacity>
           <TouchableOpacity className="flex-row items-center" activeOpacity={0.7}>
             <MessageCircle size={20} color="#6A1B9A" />
             <Text className="ml-1.5 text-[#6A1B9A] font-bold">{comments}</Text>
