@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
-import { Activity, Heart, Wind, Scale, ChevronRight, Zap, CloudMoon, Dumbbell } from 'lucide-react-native';
+import { Activity, Heart, Scale, ChevronRight, Zap, CloudMoon, Dumbbell } from 'lucide-react-native';
+import { useNavigation } from 'expo-router';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const TIPS = {
   kan: "Düzenli egzersiz pelvik bölgeye kan akışını artırarak yumurta kalitesini destekler.",
@@ -11,7 +12,7 @@ const TIPS = {
 };
 
 export default function LifestyleScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
 
   const showTip = (type: keyof typeof TIPS) => {
     const titles = {
@@ -24,7 +25,7 @@ export default function LifestyleScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Lifestyle Tracker" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader title="Lifestyle Tracker" onMenuPress={() => navigation.openDrawer()} />
       
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View className="p-4">
@@ -56,6 +57,7 @@ export default function LifestyleScreen() {
               <View className="flex-row justify-between items-center">
                 <TouchableOpacity 
                   onPress={() => showTip('kan')}
+                  activeOpacity={0.7}
                   className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300"
                 >
                   <Zap size={20} color="white" className="mb-2" />
@@ -66,6 +68,7 @@ export default function LifestyleScreen() {
                 
                 <TouchableOpacity 
                   onPress={() => showTip('stres')}
+                  activeOpacity={0.7}
                   className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300"
                 >
                   <Heart size={20} color="white" className="mb-2" />
@@ -76,6 +79,7 @@ export default function LifestyleScreen() {
                 
                 <TouchableOpacity 
                   onPress={() => showTip('kilo')}
+                  activeOpacity={0.7}
                   className="bg-[#6A1B9A] px-4 py-6 rounded-3xl w-[30%] items-center justify-center shadow-lg shadow-purple-300"
                 >
                   <Scale size={20} color="white" className="mb-2" />
@@ -86,7 +90,11 @@ export default function LifestyleScreen() {
           </View>
 
           {/* Sleep & Fertility Section */}
-          <TouchableOpacity className="bg-[#6A1B9A] rounded-[30px] p-8 overflow-hidden relative mb-10">
+          <TouchableOpacity 
+            onPress={() => Alert.alert("Bilgi", "Uyku kalitenizi artırmak için akşam 10'dan sonra mavi ışıktan kaçının.")}
+            activeOpacity={0.8}
+            className="bg-[#6A1B9A] rounded-[30px] p-8 overflow-hidden relative mb-10"
+          >
             <View className="flex-1 pr-24">
               <Text className="text-2xl font-bold text-white mb-2">Uyku ve Fertilite</Text>
               <Text className="text-white/80 text-sm font-medium leading-relaxed">
@@ -105,8 +113,6 @@ export default function LifestyleScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
