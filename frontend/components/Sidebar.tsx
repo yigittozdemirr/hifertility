@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Modal, Pressable } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Modal, Pressable, Animated, Dimensions } from 'react-native';
 import { 
   Bell, 
-  BookCheck, 
+  Clipboard, 
   Users, 
   Map, 
   GraduationCap, 
@@ -23,7 +23,7 @@ interface SidebarProps {
 
 const MENU_ITEMS = [
   { id: 'notifications', label: 'Notifications', icon: Bell, route: '/notifications' },
-  { id: 'homework', label: 'Homework (Ev Ödevi)', icon: BookCheck, route: '/homework' },
+  { id: 'homework', label: 'Homework (Ev Ödevi)', icon: Clipboard, route: '/homework' },
   { id: 'counseling', label: 'Counseling', icon: Users, route: '/counseling' },
   { id: 'roadmap', label: 'Roadmap', icon: Map, route: '/roadmap' },
   { id: 'courses', label: 'Courses', icon: GraduationCap, route: '/courses' },
@@ -34,9 +34,29 @@ const MENU_ITEMS = [
   { id: 'about', label: 'About Us', icon: Info, route: '/about' },
 ];
 
+const { width } = Dimensions.get('window');
+const SIDEBAR_WIDTH = width * 0.8;
+
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const slideAnim = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
+
+  useEffect(() => {
+    if (isOpen) {
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(slideAnim, {
+        toValue: -SIDEBAR_WIDTH,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isOpen]);
 
   const handleNavigate = (route: string) => {
     onClose();
@@ -47,40 +67,52 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     <Modal
       visible={isOpen}
       transparent={true}
-      animationType="fade"
+      animationType="none"
       onRequestClose={onClose}
     >
-      <View className="flex-1 flex-row">
-        <Pressable className="flex-1 bg-black/50" onPress={onClose} />
+      <View className="flex-1">
+        <Pressable 
+          className="absolute inset-0 bg-black/40" 
+          onPress={onClose} 
+        />
         
-        <View 
-          style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
-          className="w-4/5 bg-white shadow-xl"
+        <Animated.View 
+          style={{ 
+            transform: [{ translateX: slideAnim }],
+            width: SIDEBAR_WIDTH,
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            height: '100%',
+          }}
+          className="bg-white shadow-2xl"
         >
-          <View className="p-6 flex-row items-center justify-between border-b border-secondary">
-            <Text className="text-2xl font-bold text-primary">Hifertility</Text>
+          <View className="p-6 flex-row items-center justify-between">
+            <Text className="text-2xl font-bold text-[#6A1B9A]">Hifertility</Text>
             <TouchableOpacity onPress={onClose}>
               <X size={24} color="#6A1B9A" />
             </TouchableOpacity>
           </View>
           
-          <ScrollView className="flex-1 p-4">
+          <ScrollView className="flex-1 px-4">
             {MENU_ITEMS.map((item) => (
               <TouchableOpacity 
                 key={item.id}
-                className="flex-row items-center p-4 mb-2 rounded-xl bg-secondary/50"
+                className="flex-row items-center p-4 mb-2 rounded-2xl bg-[#F8F4FF]"
                 onPress={() => handleNavigate(item.route)}
+                activeOpacity={0.7}
               >
-                <item.icon size={20} color="#6A1B9A" />
-                <Text className="ml-4 text-lg text-primary/80 font-medium">{item.label}</Text>
+                <View className="w-10 h-10 rounded-full bg-[#F3E5F5] items-center justify-center">
+                  <item.icon size={20} color="#6A1B9A" />
+                </View>
+                <Text className="ml-4 text-base text-[#6A1B9A] font-semibold">{item.label}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
           
-          <View className="p-6 border-t border-secondary">
-            <Text className="text-muted-foreground text-sm">Version 1.0.0</Text>
+          <View className="p-6 border-t border-[#F3E5F5]">
+            <Text className="text-muted-foreground text-sm font-medium">Version 1.0.0</Text>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </Modal>
   );
