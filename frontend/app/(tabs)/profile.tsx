@@ -51,12 +51,12 @@ export default function ProfileScreen() {
               key={index}
               className="bg-white p-5 rounded-[25px] mb-4 flex-row items-center justify-between border border-[#F3E5F5] shadow-sm shadow-purple-50"
             >
-              <div className="flex-row items-center">
+              <View className="flex-row items-center">
                 <View className="w-10 h-10 bg-[#F8F4FF] rounded-2xl items-center justify-center mr-4">
                   <item.icon size={20} color={item.color || "#6A1B9A"} />
                 </View>
                 <Text className={`text-base font-bold ${item.color ? 'text-[#E91E63]' : 'text-[#6A1B9A]'}`}>{item.label}</Text>
-              </div>
+              </View>
               <ChevronRight size={18} color={item.color || "#6A1B9A"} opacity={0.5} />
             </TouchableOpacity>
           ))}
