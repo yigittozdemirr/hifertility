@@ -90,26 +90,28 @@ export default function ForumScreen() {
                 <Text className="ml-2 text-[#6A1B9A] font-bold">Görsel Ekle</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity 
-                onPress={handleSubmit}
-                disabled={isSubmitting || isSuccess}
-                className={`${isSuccess ? 'bg-green-500' : 'bg-[#6A1B9A]'} w-14 h-14 rounded-2xl items-center justify-center shadow-lg shadow-purple-300`}
-              >
-                {isSubmitting ? (
-                  <View className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : isSuccess ? (
-                  <CheckCircle2 size={28} color="white" />
-                ) : (
-                  <Send size={24} color="white" />
-                )}
-              </TouchableOpacity>
-            </View>
-
-            {isSuccess && (
-              <Animated.View style={{ opacity: fadeAnim }} className="mt-4 items-center">
-                <Text className="text-green-600 font-bold">Konunuz başarıyla gönderildi!</Text>
-              </Animated.View>
-            )}
+                <TouchableOpacity 
+                  onPress={handleSubmit}
+                  disabled={isSubmitting || isSuccess}
+                  className={`${isSuccess ? 'bg-green-500' : 'bg-[#6A1B9A]'} w-14 h-14 rounded-2xl items-center justify-center shadow-lg shadow-purple-300`}
+                >
+                  {isSubmitting ? (
+                    <ActivityIndicator size="small" color="white" />
+                  ) : isSuccess ? (
+                    <CheckCircle2 size={28} color="white" />
+                  ) : (
+                    <Send size={24} color="white" />
+                  )}
+                </TouchableOpacity>
+              </View>
+  
+              {isSuccess && (
+                <Animated.View style={{ opacity: fadeAnim }}>
+                  <View className="mt-4 items-center">
+                    <Text className="text-green-600 font-bold">Konunuz başarıyla gönderildi!</Text>
+                  </View>
+                </Animated.View>
+              )}
           </View>
 
           <View className="mb-10 px-2">
