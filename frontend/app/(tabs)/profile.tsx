@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { Sidebar } from '@/components/Sidebar';
-import { User, Settings, Heart, Activity, ShieldCheck, ChevronRight, LogOut } from 'lucide-react-native';
+import { User, Settings, Heart, ShieldCheck, ChevronRight, LogOut } from 'lucide-react-native';
+import { useApp } from '@/context/AppContext';
 
 export default function ProfileScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
+  const { state } = useApp();
+
+  const handleLogout = () => {
+    Alert.alert("Çıkış Yap", "Oturumunuz kapatılacak. Emin misiniz?", [
+      { text: "İptal", style: "cancel" },
+      { text: "Çıkış Yap", style: "destructive", onPress: () => console.log("Logout") }
+    ]);
+  };
+
+  const menuItems = [
+    { icon: Heart, label: 'Sağlık Verilerim', route: '/health-data' },
+    { icon: ShieldCheck, label: 'Gizlilik ve Güvenlik', route: '/security' },
+    { icon: Settings, label: 'Uygulama Ayarları', route: '/settings' },
+    { icon: LogOut, label: 'Çıkış Yap', action: handleLogout, color: '#E91E63' }
+  ];
 
   return (
     <View className="flex-1 bg-white">
@@ -17,7 +35,7 @@ export default function ProfileScreen() {
           <View className="w-32 h-32 rounded-[40px] bg-[#F8F4FF] items-center justify-center mb-4 shadow-sm shadow-purple-100 border border-[#F3E5F5]">
             <User size={64} color="#6A1B9A" />
           </View>
-          <Text className="text-2xl font-bold text-[#6A1B9A]">Sarah Johnson</Text>
+          <Text className="text-2xl font-bold text-[#6A1B9A]">{state.userData.name}</Text>
           <Text className="text-[#6A1B9A]/60 font-bold uppercase tracking-widest text-xs mt-1">Premium Üye</Text>
         </View>
 
@@ -41,14 +59,10 @@ export default function ProfileScreen() {
         <View className="px-6">
           <Text className="text-lg font-bold text-[#6A1B9A] mb-4">Ayarlar</Text>
           
-          {[
-            { icon: Heart, label: 'Sağlık Verilerim' },
-            { icon: ShieldCheck, label: 'Gizlilik ve Güvenlik' },
-            { icon: Settings, label: 'Uygulama Ayarları' },
-            { icon: LogOut, label: 'Çıkış Yap', color: '#E91E63' }
-          ].map((item, index) => (
+          {menuItems.map((item, index) => (
             <TouchableOpacity 
               key={index}
+              onPress={() => item.route ? router.push(item.route as any) : item.action?.()}
               className="bg-white p-5 rounded-[25px] mb-4 flex-row items-center justify-between border border-[#F3E5F5] shadow-sm shadow-purple-50"
             >
               <View className="flex-row items-center">
