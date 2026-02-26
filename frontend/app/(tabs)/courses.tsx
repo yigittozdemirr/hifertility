@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { Sidebar } from '@/components/Sidebar';
 import { LessonCard } from '@/components/LessonCard';
 import { useApp } from '@/context/AppContext';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const LESSONS = [
   {
@@ -34,13 +34,16 @@ const LESSONS = [
 ];
 
 export default function CoursesScreen() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const { state } = useApp();
 
   return (
     <View className="flex-1 bg-white">
-      <ScreenHeader title="Dersler" onMenuPress={() => setIsSidebarOpen(true)} />
+      <ScreenHeader 
+        title="Dersler" 
+        onMenuPress={() => navigation.openDrawer()} 
+      />
       
       <ScrollView className="flex-1 px-4 pt-4" showsVerticalScrollIndicator={false}>
         <View className="mb-6 bg-[#6A1B9A] p-6 rounded-[30px] shadow-lg shadow-purple-200">
@@ -69,8 +72,6 @@ export default function CoursesScreen() {
         
         <View className="h-10" />
       </ScrollView>
-
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </View>
   );
 }
