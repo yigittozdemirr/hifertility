@@ -29,6 +29,7 @@ const MENU_ITEMS = [
   { id: 'blog', label: 'Blog', icon: FileText, route: '/' },
   { id: 'surveys', label: 'Surveys', icon: ClipboardList, route: '/surveys' },
   { id: 'forum', label: 'Forum', icon: MessageSquare, route: '/forum' },
+  { id: 'lifestyle', label: 'Lifestyle Tracker', icon: Activity, route: '/lifestyle' },
   { id: 'about', label: 'About Us', icon: Info, route: '/about' },
 ];
 
@@ -38,9 +39,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const handleNavigate = (route: string) => {
     onClose();
-    // In a real app, you'd use router.push(route)
-    // For now, we'll just log it or navigate if the route exists
-    console.log(`Navigating to ${route}`);
+    router.push(route as any);
   };
 
   return (
