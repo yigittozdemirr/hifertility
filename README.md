@@ -12,8 +12,8 @@
 
 ## 🔗 Delivery Assets / Teslimat Dosyaları
 
-👉 **[Download APK (v1.0.0)](https://github.com/yigittozdemirr/hifertility/releases)**  
-👉 **[Watch Demo (YouTube)](https://youtube.com/)**  
+👉 **[Download APK (v1.0.0)](https://github.com/yigittozdemirr/hifertility/releases/tag/1.0.0)**  
+👉 **Video:** Repo içerisinde uygulama videosu(.mp4) gönderilmiştir.
 
 > ⚠️ APK dosyası tüm bağımlılıkları içerecek şekilde bundle edilmiştir ve offline çalışır.
 
@@ -103,7 +103,7 @@ npm install
 ### 3️⃣ Start the project
 
 ```bash
-npx expo start
+npx expo start --tunnel
 ```
 
 ### 4️⃣ Run on device
@@ -112,19 +112,25 @@ Scan the QR code using **Expo Go** on Android or iOS.
 
 ---
 
-## 📦 Build APK
+# 📦 Build APK (Offline Bundle)
+
+Uygulamanın Android cihazlarda bağımsız (standalone) ve performanslı çalışabilmesi için **Native Build** süreci izlenmiştir.
+
+### 1️⃣ JavaScript Bundling
+
+Kodların ve varlıkların (assets) APK içine fiziksel olarak mühürlenmesi için aşağıdaki komut ile *Offline Bundle* oluşturulmuştur:
 
 ```bash
-eas build -p android --profile preview
-```
-
-veya
-
-```bash
-npx expo run:android
+npx expo export:embed --platform android --dev false --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 ```
 
 ---
+
+### 2️⃣ Native Compilation (Android Studio)
+
+- **Build System:** CMake ve Ninja derleyicileri kullanılarak kütüphaneler yerel mimariye uygun hale getirilmiştir.  
+- **Gradle:** Gereksiz önbellekler temizlenmiş (*Clean Project*) ve projenin tüm bağımlılıkları içeren final APK çıktısı üretilmiştir.  
+- **Output:** İnternet veya harici bir sunucu bağlantısı gerektirmeyen, tamamen bağımsız çalışan **176 MB boyutunda `app-debug.apk`** elde edilmiştir.
 
 ## 📌 Roadmap
 
