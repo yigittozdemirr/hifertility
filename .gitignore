@@ -25,3 +25,26 @@ Thumbs.db
 
 # Orchids
 .orchids/
+
+# Bağımlılıklar 
+node_modules/
+.expo/
+dist/
+npm-debug.*
+yarn-error.*
+
+# Android build dosyaları 
+android/.gradle
+android/app/build
+android/.cxx
+android/.idea
+*.iml
+*.bundle
+
+# Yerel ayarlar ve gizli veriler
+.env*.local
+local.properties
+
+# Loglar ve sistem dosyaları
+*.log
+.DS_Store
