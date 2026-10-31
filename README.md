@@ -1,83 +1,71 @@
-# 🌸 HiFertility: Smart Fertility & Health Tracker
+# HiFertility
 
-[![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
-[![Android](https://img.shields.io/badge/Platform-Android-green?style=for-the-badge&logo=android)](https://www.android.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54-000020?style=flat-square&logo=expo&logoColor=white)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white)](https://github.com/yigittozdemirr/hifertility/releases/tag/1.0.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](https://opensource.org/licenses/MIT)
 
-> A digital fertility tracking assistant that personalizes the reproductive health journey through scientific insights, local data privacy, and an elegant, calming interface.
+A fertility wellness mobile app that supports the reproductive health journey with lessons, lifestyle tracking and a community space, in a calm pastel interface. The app content is mainly in Turkish.
 
----
+> This app is an educational project and does not replace advice from a healthcare professional.
 
-## 📥 Delivery Assets
+## Download and demo
 
-- **[Download APK (v1.0.0)](https://github.com/yigittozdemirr/hifertility/releases/tag/1.0.0)** – *Fully bundled, offline-ready standalone application (176 MB).*
-- **Demo Video:** Check out `app.mp4` included in the repository root for a full UI/UX walkthrough.
+- **Android build:** [HiFertility APK v1.0.0](https://github.com/yigittozdemirr/hifertility/releases/tag/1.0.0) (`app-debug.zip`, 53 MB). The bundle is embedded, so it runs without a development server.
+- **Demo video:** [`app.mp4`](app.mp4) shows a full walkthrough of the interface.
 
----
+## Features
 
-## 🎯 Project Overview
+- **Courses and lessons:** guided lessons with completion tracking and overall progress.
+- **Personal roadmap:** a phase-by-phase view of the wellness journey.
+- **Journey Garden and affirmations:** a visual progress garden and affirmations on the home screen.
+- **Health data and lifestyle tracker:** enter details such as height, weight and cycle length, and follow lifestyle habits.
+- **Homework and surveys:** assignments and questionnaires that accompany the lessons.
+- **Community and experts:** forum posts, blog content with likes, and an expert consultation screen.
 
-HiFertility bridges the gap between complex biological data and user-centered digital experiences. Designed to reduce tracking anxiety and make health data accessible, the application provides cycle tracking, fertility window predictions, and intuitive data visualization dashboards. 
+> Application state is kept in memory through the Context API, so entered data resets when the app restarts.
 
-By prioritizing a minimal interface and offline-first capabilities, HiFertility ensures that users have secure, immediate access to their reproductive health insights without requiring an internet connection.
-
-## ✨ Key Features
-
-- 📈 **Smart Cycle Prediction:** Accurately calculates fertility windows based on user-inputted health parameters.
-- 📊 **Health Data Visualization:** Comprehensive graphs and summary dashboards for easy tracking.
-- 🎨 **Calming Pastel UI System:** A clinical yet stress-free, aesthetically pleasing interface design.
-- 📱 **Fully Bundled Offline APK:** Operates completely independently without requiring cloud connectivity.
-- 🔐 **Privacy-First Local Storage:** All sensitive health data is stored strictly on the user's device.
-
-## 🛠️ Tech Stack
+## Tech stack
 
 | Technology | Purpose |
-|------------|---------|
-| **React Native** | Cross-platform mobile development core |
-| **Expo SDK** | Native module and ecosystem management |
-| **Context API** | Global state management across the application |
-| **Android NDK / CMake** | Optimized native C++ build integration |
+| --- | --- |
+| React Native and Expo | Cross-platform mobile app |
+| Expo Router | File-based navigation with tabs and a drawer |
+| TypeScript | Type safety |
+| NativeWind | Tailwind-style styling |
+| Context API | Global state |
+| Android NDK and CMake | Native release builds |
 
-## 📁 Project Structure
+## Getting started
 
-```text
-.
-├── backend/                  # Server-side logic and API integrations (if applicable)
-├── frontend/                 # React Native / Expo mobile application source code
-├── app.mp4                   # UI/UX Demo Video
-├── build-trigger.md          # CI/CD & Build execution logs
-├── package.json              # Project dependencies and scripts
-├── bun.lock                  # Bun package manager lockfile
-└── README.md                 # Project documentation
+You need [Node.js](https://nodejs.org/) (LTS) and the [Expo Go](https://expo.dev/go) app or an emulator.
 
-```
-## 🚀 Local Development Setup
-## 1. Clone the repository
+The app lives in the `frontend/` directory:
+
 ```bash
-git clone [https://github.com/yigittozdemirr/hifertility.git](https://github.com/yigittozdemirr/hifertility.git)
-cd hifertility
+git clone https://github.com/yigittozdemirr/hifertility.git
+cd hifertility/frontend
+npm install
+npm run dev
 ```
 
-## 2. Install dependencies
-```bash
-npm install 
-# or use bun install if preferred, based on the bun.lock file
-```
+Scan the QR code with Expo Go on your device.
 
-## 3. Start the development server
-```bash
-npx expo start --tunnel
-```
+### Other commands
 
-## 4. Run on your device
-Scan the generated QR code using the Expo Go app on your Android or iOS device.
+Run these inside `frontend/`:
 
-## 📦 Production Build (Offline Standalone APK)
-To ensure the application runs independently and with high performance on Android devices, a strict Native Build process was implemented.
+| Command | Description |
+| --- | --- |
+| `npm run android` | Start on an Android device or emulator |
+| `npm run web` | Start in the browser |
+| `npm run lint` | Run ESLint and Prettier checks |
+| `npm run typecheck` | Run the TypeScript compiler |
 
-## 1. JavaScript Bundling
-To physically seal the code and assets inside the APK for offline use, an Offline Bundle was generated:
+## Building the standalone APK
+
+Bundle the JavaScript and assets into the Android project from `frontend/`:
 
 ```bash
 npx expo export:embed --platform android --dev false \
@@ -85,26 +73,36 @@ npx expo export:embed --platform android --dev false \
   --assets-dest android/app/src/main/res
 ```
 
-## 2. Native Compilation (Android Studio)
-Build System: Libraries were adapted for the native architecture using CMake and Ninja compilers.
+Then open `frontend/android` in Android Studio, run **Clean Project**, and build the APK. The result is a self-contained `app-debug.apk`.
 
-Gradle: Executed a Clean Project to purge caches, followed by building the final release APK containing all dependencies.
+## Project structure
 
-Result: A fully self-contained app-debug.apk that functions entirely offline without external server requests.
+```text
+.
+├── frontend/
+│   ├── app/           # Screens (Expo Router)
+│   ├── components/    # Shared components
+│   ├── context/       # AppContext: global state
+│   ├── lib/           # Theme, API client, helpers
+│   └── android/       # Native Android project
+├── backend/           # Minimal Hono server template, not used by the app's screens
+└── app.mp4            # Demo video
+```
 
-## 📌 Future Roadmap
-[ ] Cloud sync & backup capabilities
+## Roadmap
 
-[ ] User authentication system
+- [ ] Persistent on-device storage
+- [ ] Cycle and fertility window prediction
+- [ ] Cloud sync and backup
+- [ ] User authentication
+- [ ] Advanced analytics and symptom correlation
+- [ ] PDF health report export
+- [ ] iOS build
 
-[ ] Advanced analytics and symptom correlation
+## Author
 
-[ ] PDF health report generation & export
+**Yiğit Özdemir**: [@yigittozdemirr](https://github.com/yigittozdemirr)
 
-[ ] Native iOS build support (IPA)
+## License
 
-## 👨‍💻 Developer
-Yiğit Özdemir
-Software Engineering Student | Mobile App Developer
-
-**GitHub:** @yigittozdemirr
+MIT
