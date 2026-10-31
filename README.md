@@ -4,7 +4,7 @@
 [![Expo](https://img.shields.io/badge/Expo-54-000020?style=flat-square&logo=expo&logoColor=white)](https://expo.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white)](https://github.com/yigittozdemirr/hifertility/releases/tag/1.0.0)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
 A fertility wellness mobile app that supports the reproductive health journey with lessons, lifestyle tracking and a community space, in a calm pastel interface. The app content is mainly in Turkish.
 
@@ -105,4 +105,4 @@ Then open `frontend/android` in Android Studio, run **Clean Project**, and build
 
 ## License
 
-MIT
+[MIT](LICENSE)
